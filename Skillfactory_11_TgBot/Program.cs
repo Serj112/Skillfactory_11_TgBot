@@ -5,9 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
-using static VoiceTexterBot.Bot;
+using static Skillfactory_11_TgBot.Bot;
+using Skillfactory_11_TgBot.Controllers;
+using Skillfactory_11_TgBot.Services;
+using Skillfactory_11_TgBot.Configuration;
 
-namespace VoiceTexterBot
+namespace Skillfactory_11_TgBot
 {
     public class Program
     {
@@ -29,22 +32,38 @@ namespace VoiceTexterBot
 
         static void ConfigureServices(IServiceCollection services)
         {
+            AppSettings appSettings = BuildAppSettings();
+            services.AddSingleton(BuildAppSettings());
+
+            services.AddSingleton<IStorage, MemoryStorage>();
+            // Подключаем контроллеры сообщений и кнопок
+            services.AddTransient<DefaultMessageController>();
+            services.AddTransient<VoiceMessageController>();
+            services.AddTransient<TextMessageController>();
+            services.AddTransient<InlineKeyboardController>();
             // Регистрируем объект TelegramBotClient c токеном подключения
             services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient("5850721035:AAHImhMDRWIVpTQKvlzMPl7K9RzAmgz_Cxo"));
             // Регистрируем постоянно активный сервис бота
             services.AddHostedService<Bot>();
+
+            static AppSettings BuildAppSettings()
+            {
+                return new AppSettings()
+                {
+                    DownloadsFolder = "C:\\Users\\Toshka\\Downloads",
+                    BotToken = "5850721035:AAHImhMDRWIVpTQKvlzMPl7K9RzAmgz_Cxo",
+                    AudioFileName = "audio",
+                    InputAudioFormat = "ogg",
+                };
+            }
         }
 
-        public void Configure(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        static AppSettings BuildAppSettings()
         {
-            Log.LoggerFactory = loggerFactory;
+            return new AppSettings()
+            {
+                BotToken = "5850721035:AAHImhMDRWIVpTQKvlzMPl7K9RzAmgz_Cxo"
+            };
         }
-        private readonly ILogger _logger = Log.CreateLogger<Program>();
-
-        public void CustomClass()
-        {
-            _logger.LogInformation("test message");
-        }
-
     }
 }

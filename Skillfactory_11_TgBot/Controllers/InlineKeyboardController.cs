@@ -34,6 +34,7 @@ namespace Skillfactory_11_TgBot.Controllers
             {
                 "ru" => " Русский",
                 "en" => " Английский",
+                "fr" => " Французский",
                 _ => String.Empty
             };
 

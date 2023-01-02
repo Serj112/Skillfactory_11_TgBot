@@ -45,6 +45,7 @@ namespace Skillfactory_11_TgBot
             services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient("5850721035:AAHImhMDRWIVpTQKvlzMPl7K9RzAmgz_Cxo"));
             // Регистрируем постоянно активный сервис бота
             services.AddHostedService<Bot>();
+            services.AddSingleton<IFileHandler, AudioFileHandler>();
 
             static AppSettings BuildAppSettings()
             {
@@ -62,7 +63,11 @@ namespace Skillfactory_11_TgBot
         {
             return new AppSettings()
             {
-                BotToken = "5850721035:AAHImhMDRWIVpTQKvlzMPl7K9RzAmgz_Cxo"
+                DownloadsFolder = "C:\\Users\\Toshka\\Downloads",
+                BotToken = "5850721035:AAHImhMDRWIVpTQKvlzMPl7K9RzAmgz_Cxo",
+                AudioFileName = "audio",
+                InputAudioFormat = "ogg",
+                OutputAudioFormat = "wav", // Новое поле
             };
         }
     }

@@ -62,7 +62,8 @@ namespace Skillfactory_11_TgBot
                         await _voiceMessageController.Handle(update.Message, cancellationToken);
                         return;
                     case MessageType.Text:
-                        await _textMessageController.Handle(update.Message, cancellationToken);
+                        //await _textMessageController.Handle(update.Message, cancellationToken);
+                        await _telegramClient.SendTextMessageAsync(update.Message.From.Id, $"Длина сообщения: {update.Message.Text.Length} знаков", cancellationToken: cancellationToken);
                         return;
                     default:
                         await _defaultMessageController.Handle(update.Message, cancellationToken);

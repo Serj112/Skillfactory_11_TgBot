@@ -62,8 +62,15 @@ namespace Skillfactory_11_TgBot
                         await _voiceMessageController.Handle(update.Message, cancellationToken);
                         return;
                     case MessageType.Text:
-                        //await _textMessageController.Handle(update.Message, cancellationToken);
-                        await _telegramClient.SendTextMessageAsync(update.Message.From.Id, $"Длина сообщения: {update.Message.Text.Length} знаков", cancellationToken: cancellationToken);
+                        try
+                        {
+                            var t = update.Message.Text.Split(' ').Select(x => Int32.Parse(x)).Sum();
+                            await _telegramClient.SendTextMessageAsync(update.Message.From.Id, $"Сумма чисел: {t}", cancellationToken: cancellationToken);
+                        }
+                        catch
+                        {
+                            await _telegramClient.SendTextMessageAsync(update.Message.From.Id, $"Длина сообщения: {update.Message.Text.Length} знаков", cancellationToken: cancellationToken);
+                        }
                         return;
                     default:
                         await _defaultMessageController.Handle(update.Message, cancellationToken);

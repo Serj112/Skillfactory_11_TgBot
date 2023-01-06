@@ -47,18 +47,7 @@ namespace Skillfactory_11_TgBot
             services.AddHostedService<Bot>();
             services.AddSingleton<IFileHandler, AudioFileHandler>();
 
-            static AppSettings BuildAppSettings()
-            {
-                return new AppSettings()
-                {
-                    DownloadsFolder = "C:\\Users\\Toshka\\Downloads",
-                    BotToken = "5850721035:AAHImhMDRWIVpTQKvlzMPl7K9RzAmgz_Cxo",
-                    AudioFileName = "audio",
-                    InputAudioFormat = "ogg",
-                };
-            }
         }
-
         static AppSettings BuildAppSettings()
         {
             return new AppSettings()
